@@ -1,27 +1,83 @@
+class SinglyLinkedListNode<T> {
+  public data: T;
+  public next: SinglyLinkedListNode<T> | null;
+
+  constructor(data: T) {
+    this.data = data;
+    this.next = null;
+  }
+}
+
 export default class SinglyLinkedList<T> {
-    public length: number;
+  private head: SinglyLinkedListNode<T> | null;
+  private tail: SinglyLinkedListNode<T> | null;
+  public length: number;
 
-    
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
 
-    constructor() {
+  prepend(item: T): void {
+    const newNode = new SinglyLinkedListNode(item);
+
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      newNode.next = this.head;
+
+      this.head = newNode;
+    }
+    this.length++;
+  }
+
+  insertAt(item: T, idx: number): void {
+    if (idx < 0 || idx > this.length) {
+      throw new Error("Index out of bounds");
     }
 
-    prepend(item: T): void {
+    if (idx === 0) {
+      this.prepend(item);
+      return;
+    }
 
-}
-    insertAt(item: T, idx: number): void {
+    if (idx === this.length) {
+      this.append(item);
+      return;
+    }
 
-}
-    append(item: T): void {
+    // etc.
+  }
 
-}
-    remove(item: T): T | undefined {
+  append(item: T): void {
+    const newNode = new SinglyLinkedListNode(item);
 
-}
-    get(idx: number): T | undefined {
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      this.tail!.next = newNode;
+      this.tail = newNode;
+    }
+    this.length++;
+  }
 
-}
-    removeAt(idx: number): T | undefined {
+  remove(item: T): T | undefined {}
+  get(idx: number): T | undefined {}
+  removeAt(idx: number): T | undefined {
+    if (!this.head) {
+      return undefined;
+    }
+    const removedNode = this.head;
 
-}
+    if (this.head === this.tail) {
+      this.tail = null;
+    }
+    this.head = this.head.next;
+    this.length--;
+
+    return removedNode.data;
+  }
 }
